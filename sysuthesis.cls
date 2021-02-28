@@ -196,13 +196,14 @@
   math-font = {
     name = math@font,
     choices = {
+      cm,
       xits,
       stix,
       libertinus,
       lm,
       none,
     },
-    default = xits,
+    default = cm,
   },
   output = {
     choices = {
@@ -237,7 +238,7 @@
   \PassOptionsToClass{openany}{book}
 \fi
 \PassOptionsToPackage{quiet}{fontspec}
-\LoadClass[a4paper,UTF8,zihao=-4,scheme=plain,fontset=none]{ctexbook}[2017/04/01]
+\LoadClass[a4paper,UTF8,zihao=-4,scheme=plain,fontset=none,linespread=1]{ctexbook}[2017/04/01]
 \RequirePackage{etoolbox}
 \RequirePackage{filehook}
 \RequirePackage{xparse}
@@ -798,7 +799,8 @@
   \ifsysu@main@language@chinese
     \ctexset{
       chapter/name   = {第,章},
-      chapter/number = \chinese{chapter},
+      % chapter/number = \chinese{chapter},
+      chapter/number = \arabic{chapter},
     }%
     \def\bibname{参考文献}%
     \def\appendixname{附录}%
@@ -1162,26 +1164,33 @@
   \newcommand{\sysu@abstract@name@en}{ABSTRACT}
 \ctexset{%
   chapter = {
-    nameformat   = {},
-    numberformat = {},
+    format       = \centering,
+    nameformat   = {\xiaoer\heiti},
+    numberformat = {\xiaoer\rmfamily\bfseries},
     titleformat  = \xiaoer\heiti,
-    aftername    = \ \ ,
-    fixskip      = true,
+    aftername    = \quad,
     afterindent  = true,
     lofskip      = 0pt,
     lotskip      = 0pt,
   },
   section = {
+    nameformat   = {\xiaosan\rmfamily\bfseries},
     titleformat  = \xiaosan\songti\textbf,
+    indent       = 24bp,
     aftername    = \quad,
     afterindent  = true,
   },
   subsection = {
+    nameformat   = {\sihao\rmfamily\bfseries},
     titleformat  = \sihao\songti\textbf,
+    indent       = 24bp,
     aftername    = \quad,
     afterindent  = true,
   },
   subsubsection = {
+    nameformat   = {\sihao\rmfamily\bfseries},
+    titleformat  = \sihao\songti\textbf,
+    indent       = 24bp,
     aftername    = \quad,
     afterindent  = true,
   },
@@ -1220,24 +1229,28 @@
   \else
     \ctexset{%
       chapter = {
-        format     = \centering\sffamily\sanhao,
-        beforeskip = 27bp,
-        afterskip  = 47bp,
+        % format     = \centering\sffamily\sanhao,
+        beforeskip = 26bp,
+        afterskip  = 46bp,
+        fixskip    = true,
       },
       section = {
-        format     = \sffamily\fontsize{14bp}{20bp}\selectfont,
-        beforeskip = 24bp,
-        afterskip  = 6bp,
+        % format     = \sffamily\fontsize{14bp}{20bp}\selectfont,
+        beforeskip = 26bp,
+        afterskip  = 26bp,
+        fixskip    = true,
       },
       subsection = {
-        format     = \sffamily\fontsize{13bp}{20bp}\selectfont,
-        beforeskip = 12bp,
-        afterskip  = 6bp,
+        % format     = \sffamily\fontsize{13bp}{20bp}\selectfont,
+        beforeskip = 26bp,
+        afterskip  = 26bp,
+        fixskip    = true,
       },
       subsubsection = {
-        format     = \sffamily\fontsize{12bp}{20bp}\selectfont,
-        beforeskip = 12bp,
-        afterskip  = 6bp,
+        % format     = \sffamily\fontsize{12bp}{20bp}\selectfont,
+        beforeskip = 26bp,
+        afterskip  = 26bp,
+        fixskip    = true,
       },
     }%
   \fi
@@ -1337,11 +1350,11 @@
         {\contentspush{\thecontentslabel\quad}}{}
         {\rmfamily\sysu@leaders\thecontentspage}%
       \titlecontents{section}
-        [1em]{}
+        [0pt]{}
         {\contentspush{\thecontentslabel\quad}}{}
         {\sysu@leaders\thecontentspage}%
       \titlecontents{subsection}
-        [1.5em]{}
+        [0pt]{}
         {\contentspush{\thecontentslabel\quad}}{}
         {\sysu@leaders\thecontentspage}%
     \else
@@ -1351,11 +1364,11 @@
           {\contentspush{\thecontentslabel\quad}}{}
           {\rmfamily\sysu@leaders\thecontentspage}%
         \titlecontents{section}
-          [0.5cm]{}
+          [0pt]{}
           {\contentspush{\thecontentslabel\quad}}{}
           {\sysu@leaders\thecontentspage}%
         \titlecontents{subsection}
-          [1cm]{}
+          [0pt]{}
           {\contentspush{\thecontentslabel\quad}}{}
           {\sysu@leaders\thecontentspage}%
       \fi
@@ -1366,11 +1379,11 @@
       {\contentspush{\thecontentslabel\quad}}{}
       {\rmfamily\sysu@leaders\thecontentspage}%
     \titlecontents{section}
-      [1em]{}
+      [0pt]{}
       {\contentspush{\thecontentslabel\quad}}{}
       {\sysu@leaders\thecontentspage}%
     \titlecontents{subsection}
-      [2em]{}
+      [0pt]{}
       {\contentspush{\thecontentslabel\quad}}{}
       {\sysu@leaders\thecontentspage}%
   \fi
@@ -1569,11 +1582,16 @@
   \begingroup
     \noindent\sihao\kaishu
     \begin{center}
-        学位申请人:\ \ \sysu@underline[5.3cm]{\sysu@author}
-        \vskip 0.2cm
-        导师姓名及职称:\ \ \sysu@underline[4.3cm]{\sysu@supervisor\ \sysu@supervisor@title}
-        \vskip 0.2cm
-        专业名称:\ \ \sysu@underline[5.9cm]{\sysu@discipline}
+      \begin{tabular}{ p{6cm} @{  } p{9cm} }
+        \hfill 学位申请人：\  & \sysu@underline[6cm]{\sysu@author} \\[0.2cm]
+        \hfill 导师姓名及职称：\  & \sysu@underline[6cm]{\sysu@supervisor\ \sysu@supervisor@title} \\[0.2cm]
+        \hfill 专业：\  & \sysu@underline[6cm]{\sysu@discipline} \\
+      \end{tabular}\par
+        % 学位申请人：\ \ \sysu@underline[5.3cm]{\sysu@author}
+        % \vskip 0.2cm
+        % 导师姓名及职称：\ \ \sysu@underline[4.3cm]{\sysu@supervisor\ \sysu@supervisor@title}
+        % \vskip 0.2cm
+        % 专业名称：\ \ \sysu@underline[5.9cm]{\sysu@discipline}
     \end{center}
   \endgroup
   \vskip 2cm
@@ -1611,7 +1629,7 @@
   \sysu@underline[12cm]{\xiaoer\sysu@title@en}\par
   \vskip 2cm
   \begingroup
-    \noindent\sihao\kaishu
+  \noindent\sihao\kaishu
     \begin{center}
         学位申请人:\ \ \sysu@underline[5.9cm]{\sysu@author}
         \vskip 0.2cm
@@ -1662,9 +1680,10 @@
     {\sysu@titlepage@title@en}%
     \vfill
     \parbox[t][8.25cm][t]{\textwidth}{\centering\sysu@titlepage@info}\par
+    \vskip 1cm%
     \parbox[t][1cm][b]{\textwidth}{\centering\sysu@titlepage@date}\par
     \vskip 1cm%
-    \parbox[t][2cm][t]{\textwidth}{%
+    \parbox[t][1cm][t]{\textwidth}{%
       \hskip -0.69cm%
     }\par
   \endgroup
@@ -1729,17 +1748,17 @@
 }
 \newcommand\sysu@titlepage@info@graduate@academic{%
     \begingroup
-    \linespread{1.1}
+    \linespread{1.2}
     \xiaosan\songti
     \begin{tabular}{ p{6cm} @{  } p{9cm} }
-        \hfill 专业:\  & \sysu@underline[6cm]{\sysu@discipline} \\
-        \hfill 学位申请人:\  & \sysu@underline[6cm]{\sysu@author} \\
-        \hfill 指导教师:\  & \sysu@underline[6cm]{\sysu@supervisor\ \sysu@supervisor@title} \\
+        \hfill 专业：\  & \sysu@underline[6cm]{\sysu@discipline} \\
+        \hfill 学位申请人：\  & \sysu@underline[6cm]{\sysu@author} \\
+        \hfill 指导教师：\  & \sysu@underline[6cm]{\sysu@supervisor\ \sysu@supervisor@title} \\
     \end{tabular}\par
     \vspace{1cm}
     \begin{tabular}{ p{6cm} @{  } p{9cm} }
-        \hfill 论文答辩委员会主席:\  & \sysu@underline[6cm]{\sysu@committee@chair} \\
-        \hfill 成员:\  & \sysu@underline[6cm]{\sysu@committee@one} \\
+        \hfill 论文答辩委员会主席：\  & \sysu@underline[6cm]{\sysu@committee@chair} \\
+        \hfill 成员：\  & \sysu@underline[6cm]{\sysu@committee@one} \\
         \hfill & \sysu@underline[6cm]{\sysu@committee@two} \\
         \hfill & \sysu@underline[6cm]{\sysu@committee@three} \\
         \hfill & \sysu@underline[6cm]{\sysu@committee@four} \\
@@ -1759,7 +1778,8 @@
   \thispagestyle{empty}%
   \sysu@pdfbookmark{0}{声明}%
   \sysu@phantomsection
-  \includepdf[pages=-]{data/statement_page_official.pdf}
+  \sysu@copyright@page@graduate
+%  \includepdf[pages=-]{data/statement_page_official.pdf}
 }
 \newcommand{\sysu@authorization@frontdate}{%
   日\ifsysu@degree@bachelor\hspace{1em}\else\hspace{2em}\fi 期：}
@@ -1772,21 +1792,27 @@
   }%
 
   \begingroup
-    \ctexset{
-      chapter = {
-        format     = {\centering\sffamily\erhao},
-        beforeskip = 18bp,
-        afterskip  = 6bp,
-      },
-    }%
+    % \ctexset{
+    %   chapter = {
+    %     format     = {\centering\sffamily\erhao},
+    %     beforeskip = 18bp,
+    %     afterskip  = 18bp,
+    %   },
+    % }%
     \begin{center}
         {\xiaoer\heiti\textbf{原创性及使用授权声明}}
     \end{center}
-    \vskip 0.5cm
+    \vskip 3\ccwd%
     \begin{center}
-        {\xiaoer\songti\textbf{论文原创性声明内容}}
+        {\xiaosan\songti\textbf{论文原创性声明}}
     \end{center}
-    本人郑重声明：所呈交的学位论文，是本人在导师的指导下，独立进行研究工作所取得的成果。除文中已经注明引用的内容外，本论文不包含任何其他个人或集体已经发表或撰写过的作品成果。对本文的研究作出重要贡献的个人和集体，均已在文中以明确方式标明。本人完全意识到本声明的法律结果由本人承担。
+    \vskip 2\ccwd%
+
+    本人郑重声明：所呈交的学位论文，是本人在导师的指导 下，独立进行研究工作所取
+    得的成果。除文中已经注明引用的 内容外，本论文不包含任何其他个人或集体已经发
+    表或撰写过 的作品成果。对本文的研究作出重要贡献的个人和集体，均已 在文中以明
+    确方式标明。本人完全意识到本声明的法律结果由 本人承担。
+    
     \thispagestyle{empty}%
   \endgroup
   \vskip 10bp%
@@ -1796,31 +1822,39 @@
   \vskip0.2cm%
   \begingroup
     \noindent\xiaosi
-    \hspace*{8.5cm}%
+    \hspace*{2\ccwd}%
     % 作者签名：\sysu@underline[7em]\relax\hfill
     % 导师签名：\sysu@underline[7em]\relax\hspace*{1cm}\\[3pt]%
-    作者签名：\sysu@underline[7em]\relax\hspace*{1cm}\\[3pt]%
-    \hspace*{8.5cm}%
+    学位论文作者签名：\\[3pt]%
+    \hspace*{2\ccwd}%
     % 日\hspace{2em}期：\sysu@underline[7em]\relax\hfill
-    日\hspace{2em}期：\sysu@underline[7em]\relax\hspace*{1cm}%
+    日期：\hspace{4\ccwd}年\hspace{2\ccwd}月\hspace{2\ccwd}日%
   \endgroup
 
   \vspace{1cm}
   \begingroup
-    \ctexset{
-      chapter = {
-        format     = {\centering\sffamily\erhao},
-        beforeskip = 18bp,
-        afterskip  = 6bp,
-      },
-    }%
+    % \ctexset{
+    %   chapter = {
+    %     format     = {\centering\sffamily\erhao},
+    %     beforeskip = 18bp,
+    %     afterskip  = 18bp,
+    %   },
+    % }%
+    
+    \vskip 1\ccwd%
     \begin{center}
-        {\Large \textbf{学位论文使用授权声明}}
+        {\xiaosan\songti\textbf{学位论文使用授权声明}}
     \end{center}
+    \vskip 2\ccwd%
+    
+    本人完全了解中山大学有关保留、使用学位论文的规定， 即：学校有权保留学位论文
+    并向国家主管部门或其指定机构送 交论文的电子版和纸质版；有权将学位论文用于非
+    赢利目的的 少量复制并允许论文进入学校图书馆、院系资料室被查阅；有 权将学位论
+    文的内容编入有关数据库进行检索；可以采用复 印、缩印或其他方法保存学位论文；
+    可以为建立了馆际合作关 系的兄弟高校用户提供文献传递服务和交换服务。
 
-本人完全了解中山大学有关保留、使用学位论文的规定，即：学校有权保留学位论文并向国家主管部门或其指定机构送交论文的电子版和纸质版；有权将学位论文用于非赢利目的的少量复制并允许论文进入学校图书馆、院系资料室被查阅；有权将学位论文的内容编入有关数据库进行检索；可以采用复印、缩印或其他方法保存学位论文；可以为建立了馆际合作关系的兄弟高校用户提供文献传递服务和交换服务。
-
-保密论文保密期满后，适用本声明。
+    保密论文保密期满后，适用本声明。
+    
     \thispagestyle{empty}%
   \endgroup
   \vskip 10bp%
@@ -1830,12 +1864,13 @@
   \vskip0.2cm%
   \begingroup
     \noindent\xiaosi
-    \hspace*{1.5cm}%
-    作者签名：\sysu@underline[7em]\relax\hfill
-    导师签名：\sysu@underline[7em]\relax\hspace*{1cm}\\[3pt]%
-    \hspace*{1.5cm}%
-    日\hspace{2em}期：\sysu@underline[7em]\relax\hfill
-    日\hspace{2em}期：\sysu@underline[7em]\relax\hspace*{1cm}%
+    \hspace*{2\ccwd}%
+    学位论文作者签名：\hspace{9\ccwd}
+    导师签名：\\[3pt]%
+    \hspace*{2\ccwd}%
+    日期：\hspace{4\ccwd}年\hspace{2\ccwd}月\hspace{2\ccwd}日%
+    \hspace{4\ccwd}
+    日期：\hspace{4\ccwd}年\hspace{2\ccwd}月\hspace{2\ccwd}日%
   \endgroup
   \clearpage
   \restoregeometry
