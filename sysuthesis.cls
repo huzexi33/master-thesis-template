@@ -242,7 +242,7 @@
 \RequirePackage{etoolbox}
 \RequirePackage{filehook}
 \RequirePackage{xparse}
-\RequirePackage{geometry}%
+\RequirePackage[truedimen]{geometry}%
 \RequirePackage{fancyhdr}
 \RequirePackage{titletoc}
 \RequirePackage{notoccite}
@@ -290,9 +290,10 @@
 \sysu@package@conflict{unicode-math}{eucal}
 \sysu@package@conflict{unicode-math}{eufrak}
 \sysu@package@conflict{unicode-math}{mathrsfs}
+
 \geometry{
   paper          = a4paper,  % 210 * 297mm
-  marginparwidth = 2cm,
+  marginparwidth = 2.5cm,
   marginparsep   = 0.5cm,
 }
 \newcommand\sysu@set@geometry{%
@@ -317,11 +318,15 @@
       }%
     \fi
   \else
-    \geometry{
-      margin     = 3cm,
-      headheight = 0.5cm,
-      headsep    = 0.3cm,
-      footskip   = 0.8cm,
+  \geometry{
+      headheight  = 0.6cm,
+      headsep     = 0.6cm,
+      footskip    = 1.2cm,
+      inner       = 4.0cm,
+      outer       = 2.0cm,
+      top         = 2.8cm,
+      bottom      = 2.8cm,
+      nomarginpar,
     }%
   \fi
 }
@@ -558,7 +563,7 @@
   math-style = ISO,
   bold-style = ISO,
   nabla      = upright,
-  partial    = upright,
+  partial    = italic,
 }
 \newcommand\sysu@load@math@font@xits{%
   \sysu@set@xits@names
@@ -726,9 +731,9 @@
 \sysu@option@hook{cjk-font}{\sysu@load@cjk@font}
 \renewcommand\normalsize{%
   \@setfontsize\normalsize{12bp}{20bp}%
-  \abovedisplayskip 6bp%
-  \abovedisplayshortskip 6bp%
-  \belowdisplayshortskip 6bp%
+  \abovedisplayskip 8bp%
+  \abovedisplayshortskip 4bp%
+  \belowdisplayshortskip 4bp%
   \belowdisplayskip \abovedisplayskip
 }
 \normalsize
@@ -953,12 +958,14 @@
     \let\@mkboth\@gobbletwo
     \let\chaptermark\@gobble
   \else
-    \renewcommand\headrulewidth{0.75bp}%
-    \fancyhead[C]{\wuhao\leftmark}%
-    \fancyfoot[C]{\wuhao\thepage}%
-    \let\@mkboth\markboth
+    \fancyhead{}%
+    % \renewcommand\headrulewidth{0.75bp}%
+    \renewcommand\headrulewidth{1pt}%
+    \fancyhead[LO,RE]{\wuhao\leftmark}%
+    \fancyhead[LE,RO]{\wuhao\thepage}%
+    \let\@mkboth\markboth%
     \def\chaptermark##1{%
-      \markboth{\CTEXifname{\CTEXthechapter\quad}{}##1}{}%
+      \markboth{\CTEXifname{\CTEXthechapter\hspace{\ccwd}}{}##1}{}%
     }%
   \fi
   \let\sectionmark\@gobble
@@ -1168,7 +1175,7 @@
     nameformat   = {\xiaoer\heiti},
     numberformat = {\xiaoer\rmfamily\bfseries},
     titleformat  = \xiaoer\heiti,
-    aftername    = \quad,
+    aftername    = \hspace{\ccwd},
     afterindent  = true,
     lofskip      = 0pt,
     lotskip      = 0pt,
@@ -1177,21 +1184,21 @@
     nameformat   = {\xiaosan\rmfamily\bfseries},
     titleformat  = \xiaosan\songti\textbf,
     indent       = 24bp,
-    aftername    = \quad,
+    aftername    = \hspace{0.5\ccwd},
     afterindent  = true,
   },
   subsection = {
     nameformat   = {\sihao\rmfamily\bfseries},
     titleformat  = \sihao\songti\textbf,
     indent       = 24bp,
-    aftername    = \quad,
+    aftername    = \hspace{0.5\ccwd},
     afterindent  = true,
   },
   subsubsection = {
     nameformat   = {\sihao\rmfamily\bfseries},
     titleformat  = \sihao\songti\textbf,
     indent       = 24bp,
-    aftername    = \quad,
+    aftername    = \hspace{0.5\ccwd},
     afterindent  = true,
   },
   paragraph/afterindent = true,
@@ -1379,13 +1386,13 @@
       {\contentspush{\thecontentslabel\quad}}{}
       {\rmfamily\sysu@leaders\thecontentspage}%
     \titlecontents{section}
-      [0pt]{}
+      [0pt]{\sffamily}
       {\contentspush{\thecontentslabel\quad}}{}
-      {\sysu@leaders\thecontentspage}%
+      {\rmfamily\sysu@leaders\thecontentspage}%
     \titlecontents{subsection}
-      [0pt]{}
+      [0pt]{\sffamily}
       {\contentspush{\thecontentslabel\quad}}{}
-      {\sysu@leaders\thecontentspage}%
+      {\rmfamily\sysu@leaders\thecontentspage}%
   \fi
 }
 \sysu@set@toc@format
@@ -1583,9 +1590,12 @@
     \noindent\sihao\kaishu
     \begin{center}
       \begin{tabular}{ p{6cm} @{  } p{9cm} }
-        \hfill 学位申请人：\  & \sysu@underline[6cm]{\sysu@author} \\[0.2cm]
-        \hfill 导师姓名及职称：\  & \sysu@underline[6cm]{\sysu@supervisor\ \sysu@supervisor@title} \\[0.2cm]
-        \hfill 专业：\  & \sysu@underline[6cm]{\sysu@discipline} \\
+        \hfill 作者姓名：\  & \sysu@underline[6cm]{\sysu@author} \\[0.2cm]
+        \hfill 指导老师：\  & \sysu@underline[6cm]{\sysu@supervisor\ \sysu@supervisor@title} \\[0.2cm]
+        \hfill 专\hspace{2\ccwd}业：\  & \sysu@underline[6cm]{\sysu@discipline} \\
+        % \hfill 学位申请人：\  & \sysu@underline[6cm]{\sysu@author} \\[0.2cm]
+        % \hfill 导师姓名及职称：\  & \sysu@underline[6cm]{\sysu@supervisor\ \sysu@supervisor@title} \\[0.2cm]
+        % \hfill 专业：\  & \sysu@underline[6cm]{\sysu@discipline} \\
       \end{tabular}\par
         % 学位申请人：\ \ \sysu@underline[5.3cm]{\sysu@author}
         % \vskip 0.2cm
@@ -1594,7 +1604,7 @@
         % 专业名称：\ \ \sysu@underline[5.9cm]{\sysu@discipline}
     \end{center}
   \endgroup
-  \vskip 2cm
+  \vskip 1.2cm
   \begingroup
     \centering
     {\kaishu\sihao\sysu@format@date{\sysu@date@zh@digit}{\sysu@date}}\par
@@ -1666,9 +1676,15 @@
 }
 \newcommand\sysu@titlepage@graduate@academic{%
   \newgeometry{
-    top     = 3cm,
-    bottom  = 3.5cm,
-    hmargin = 3.5cm,
+    inner       = 4.0cm,
+    outer       = 2.0cm,
+    top         = 2.8cm,
+    bottom      = 2.8cm,
+    nomarginpar,
+    noheadfoot,
+    % top     = 3cm,
+    % bottom  = 3.5cm,
+    % hmargin = 3.5cm,
   }%
   \thispagestyle{empty}%
   \null\vskip 0.2cm%
@@ -1751,9 +1767,12 @@
     \linespread{1.2}
     \xiaosan\songti
     \begin{tabular}{ p{6cm} @{  } p{9cm} }
-        \hfill 专业：\  & \sysu@underline[6cm]{\sysu@discipline} \\
-        \hfill 学位申请人：\  & \sysu@underline[6cm]{\sysu@author} \\
-        \hfill 指导教师：\  & \sysu@underline[6cm]{\sysu@supervisor\ \sysu@supervisor@title} \\
+      \hfill 作者姓名：\  & \sysu@underline[6cm]{\sysu@author} \\
+      \hfill 指导老师：\  & \sysu@underline[6cm]{\sysu@supervisor\ \sysu@supervisor@title} \\
+      \hfill 专\hspace{2\ccwd}业：\  & \sysu@underline[6cm]{\sysu@discipline} \\
+        % \hfill 专业：\  & \sysu@underline[6cm]{\sysu@discipline} \\
+        % \hfill 学位申请人：\  & \sysu@underline[6cm]{\sysu@author} \\
+        % \hfill 指导教师：\  & \sysu@underline[6cm]{\sysu@supervisor\ \sysu@supervisor@title} \\
     \end{tabular}\par
     \vspace{1cm}
     \begin{tabular}{ p{6cm} @{  } p{9cm} }
@@ -1787,8 +1806,14 @@
 \newcommand\sysu@copyright@page@graduate{%
   \cleardoublepage
   \newgeometry{
-    vmargin = 3.8cm,
-    hmargin = 3.2cm,
+    inner       = 4.0cm,
+    outer       = 2.0cm,
+    top         = 2.8cm,
+    bottom      = 2.8cm,
+    nomarginpar,
+    noheadfoot,
+    % vmargin = 3.8cm,
+    % hmargin = 3.2cm,
   }%
 
   \begingroup
